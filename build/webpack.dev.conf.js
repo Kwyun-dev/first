@@ -42,6 +42,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app) {
+      const express = require('express');
+      const App = express();
+      var appData1 = require('../mock/data1.json');
+      var appData2 = require('../mock/bookmsg.json');
+      var apiRoutes = express.Router();
+      App.use('/api1', apiRoutes);
+      App.use('/api2', apiRoutes);
+
+      app.get('/api1', (req, res) => {
+        res.json(appData1);
+      })
+
+      app.get('/api2', (req, res) => {
+        res.json(appData2);
+      })
     }
   },
   plugins: [

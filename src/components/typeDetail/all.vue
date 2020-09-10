@@ -1,5 +1,6 @@
 <template>
     <div id="allType">
+        <button @click="getMsg">test</button>
         <div v-for="item in datalist">
             <h2>{{ item.title }}</h2>
             <div v-for="item1 in item.single" class="single-type">
@@ -183,71 +184,15 @@ export default {
                             ]
                         },
                     ]
-                },{
-                    title: "频道排行",
-                    single: [
-                        {
-                            category: "女性·长篇连载榜",
-                            description: "作品三日内有更新，按周热度排行",
-                            books: [
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                            ]
-                        },{
-                            category: "女性·长篇连载潜力榜",
-                            description: "作品七日内有更新且字数在二万至十万之间，按周阅读时长排序",
-                            books: [
-                                {
-                                    name: "没有死者的谋杀",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                                {
-                                    name: "五环外的女人",
-                                    author: "伊北",
-                                    type: ["女性", "成长逆袭"],
-                                    image: "",
-                                },
-                            ]
-                        },
-                    ]
-                },
+                }
             ]
+        }
+    },
+    methods: {
+        getMsg() {
+            this.$axios.get('http://localhost:8899/commonLpt/getJudgeList').then((res) => {
+                console.log(res);
+            })
         }
     },
 }
