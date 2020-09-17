@@ -1,6 +1,6 @@
 var express = require('express'); //
 var app = express();
-var getJudgeList = require('./getJudgeList');
+var getBookMes = require('../mock/bookmsg')
 
 app.all('*', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -17,11 +17,11 @@ app.all('*', (req, res, next) => {
     }
 })
 
-app.get('/commonLpt/getJudgeList', (req, res) => {
+app.get('/getBookMes', (req, res) => {
     var result = {
         msg: "成功",
         code: 0,
-        data: getJudgeList
+        data: getBookMes
     };
     res.send(result);
 });

@@ -5,21 +5,23 @@
         <div class="catalog-list">
             <ul>
                 <li v-for="(item, key) in catalog" v-if="key < count">
-                    <h3>{{item.title}}</h3>
-                    <p class="content">{{item.content}}</p>
-                    <div class="msg">
-                        <div class="left-part">
-                            {{item.date}}
+                    <a href="javascript:;" @click="gotoChapter(key)">
+                        <h3>{{item.title}}</h3>
+                        <div class="content">{{item.content}}</div>
+                        <div class="msg">
+                            <div class="left-part">
+                                {{item.date}}
+                            </div>
+                            <div class="right-part">
+                                阅读 {{item.read}} &nbsp;&nbsp;
+                                讨论 {{item.discuss.length}}
+                            </div>
                         </div>
-                        <div class="right-part">
-                            阅读 {{item.read}} &nbsp;&nbsp;
-                            讨论 {{item.discuss.length}}
-                        </div>
-                    </div>
+                    </a>
                 </li>
             </ul>
         </div>
-        <div class="see-more">
+        <div class="see-more" id="visibleBtn">
             <a href="javascript:;" @click="changeLimit">点击加载更多</a>
         </div>
     </div>
@@ -35,15 +37,19 @@ export default {
     },
     methods: {
         changeLimit() {
-            this.count += 1;
+            this.count ++;
+            if(this.count >= this.catalog.length) {
+                var tag = document.getElementById("visibleBtn");
+                tag.style.display = "none"
+            }
+        },
+        gotoChapter(index) {
+            console.log(index)
+            this.$router.push({name: "chapter-page", params: {index: index}})
         }
     },
     mounted() {
-        this.$axios.get('/api2').then((res) => {
-            var result = res.data.data[0];
-            this.catalog = result.catalog;
-            console.log(this.catalog)
-        })
+        this.catalog = this.$store.getters.getCatalog;
     },
 }
 </script>
@@ -60,10 +66,15 @@ export default {
         width: 70%;
         margin: 0 auto;
     }
+    .catalog-list h3 {
+        font-size: 16px;
+        font-weight: bold;
+    }
     .catalog-list ul li {
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid lightgray;
         padding: 10px;
         width: 100%;
+        transition: background-color 1s ease;
     }
     .catalog-list ul li .content {
         height: 40px;
@@ -74,10 +85,20 @@ export default {
         word-wrap: break-word;
         word-break: break-all;
     }
+    .catalog-list ul li:hover {
+        background-color: lightgray;
+    }
+    .catalog-list .msg {
+        color: gray;
+    }
 
     .see-more {
         text-align: center;
-        margin-top: 10px;
+        margin: 15px;
+        font-size: 13px;
+    }
+    .see-more a {
+        color: #389eac;
     }
 
     .left-part {
